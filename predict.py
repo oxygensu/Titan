@@ -88,10 +88,10 @@ y = train_np[:, 0]
 X = train_np[:, 1:]
 
 # fit到RandomForestRegressor之中
-clf = linear_model.LogisticRegression(C=1.0, penalty='l2', tol=1e-6)
-clf.fit(X, y)
+model_LogisticRegression = linear_model.LogisticRegression(C=1.0, penalty='l2', tol=1e-6)
+model_LogisticRegression.fit(X, y)
 print('model:\n')
-print(clf)
+print(model_LogisticRegression)
 
 # test data processing
 test_data.loc[ (test_data.Fare.isnull()), 'Fare' ] = 0
@@ -121,8 +121,11 @@ fare_scale_param = scaler.fit(fare_reshaped)
 df_test['Fare_scaled'] = scaler.fit_transform(fare_reshaped, fare_scale_param)
 
 
-test = df_test.filter(regex='Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
-predictions = clf.predict(test)
+test=df_test.filter(regex='Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
+
+# use logistic regression
+predictions = model_LogisticRegression.predict(test)
 result = pd.DataFrame({'PassengerId':test_data['PassengerId'].values, 'Survived':predictions.astype(np.int32)})
 result.to_csv("data/logistic_regression_predictions.csv", index=False)
 
+# use tensorflow cnn
