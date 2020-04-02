@@ -81,6 +81,9 @@ print(df.describe())
 train_df = df.filter(regex='Survived|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
 train_np = train_df.values
 
+# save the processed train data to csv
+train_df.to_csv("data/processed_train.csv", index=False)
+
 # y即Survival结果
 y = train_np[:, 0]
 
@@ -122,6 +125,9 @@ df_test['Fare_scaled'] = scaler.fit_transform(fare_reshaped, fare_scale_param)
 
 
 test=df_test.filter(regex='Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
+
+# save the processed test data to csv
+test.to_csv("data/processed_test.csv", index=False)
 
 # use logistic regression
 predictions = model_LogisticRegression.predict(test)
