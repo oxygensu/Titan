@@ -7,3 +7,4 @@ import tensorflow as tf
 train_data = pd.read_csv('data/processed_train.csv')
 test_data = pd.read_csv('data/processed_test.csv')
 
+print(tf.__version__)
