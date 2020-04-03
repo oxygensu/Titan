@@ -1,3 +1,9 @@
+"""
+This is learn from https://blog.csdn.net/han_xiaoyang/article/details/49797143
+==================================
+
+"""
+
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
@@ -9,7 +15,7 @@ def fill_age(df):
     # 把已有的数值型特征取出来丢进Random Forest Regressor中
     age_df = df[['Age','Fare', 'Parch', 'SibSp', 'Pclass']]
 
-    # 乘客分成已知年龄和未知年龄两部分
+    # split Passenger from know and nuknow age
     known_age = age_df[age_df.Age.notnull()].values
     unknown_age = age_df[age_df.Age.isnull()].values
 
