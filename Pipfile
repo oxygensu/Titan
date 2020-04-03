@@ -9,7 +9,7 @@ verify_ssl = true
 numpy = "*"
 pandas = "*"
 scikit-learn = "*"
-tensorflow = "==2.0.0"
+tensorflow = "==2.0.1"
 
 [requires]
 python_version = "3.7"
