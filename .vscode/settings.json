@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\h381917\\.virtualenvs\\1.Titan-PWeQOcCs\\Scripts\\python.exe"
+    "python.linting.enabled": true,
+    "python.pythonPath": "/Users/sushuxiang/opt/anaconda3/envs/TensorflowEnv/bin/python"
 }
