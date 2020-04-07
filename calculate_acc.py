@@ -12,11 +12,13 @@ answer = pd.read_csv('data/gender_submission.csv')
 correct = 0
 not_correct = 0
 
-for each in predictions:
+survived = predictions.to_dict(orient='PassengerId')
+
+# for each in predictions:
     # survived = each['PassengerId'].values
     # if each['Survived'] == (answer[each['PassengerId']]):
     #     correct = correct + 1
     # else:
-    not_correct = not_correct + 1
+    # not_correct = not_correct + 1
 
 print("acc = %.3f", (correct/(correct+not_correct)))
