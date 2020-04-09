@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 import sklearn
 # load predictions csv
-predictions = pd.read_csv('data/tf_predictions.csv')
+predictions = pd.read_csv('data/predictions/tf_predictions.csv')
 # load answer csv
-answer = pd.read_csv('data/submission.csv')
+answer = pd.read_csv('data/predictions/submission.csv')
 
 
 predictions_np = predictions.values
