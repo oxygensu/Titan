@@ -27,10 +27,9 @@ train_y_dataset = tf.data.Dataset.from_tensor_slices((y))
 # build a model
 def build_model():
     model = keras.Sequential([
-        layers.Dense(256, activation='relu', input_shape=(18,)),
-        layers.Dense(128, activation='relu'),
-        layers.Dense(64, activation='relu'),
-        layers.Dense(32, activation='relu'),
+        layers.Dense(128, activation='relu', input_shape=(18,)),
+        layers.Dense(64, activation='sigmoid'),
+        layers.Dense(32, activation='softmax'),
         layers.Dense(1)
     ])
     optimizer = tf.keras.optimizers.Adam(0.001)
@@ -43,7 +42,7 @@ def build_model():
 model = build_model()
 model.summary()
 
-EPOCHS = 500
+EPOCHS = 1000
 history = model.fit(
     x, y,
     epochs=EPOCHS

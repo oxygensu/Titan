@@ -14,19 +14,22 @@ test_np = test_df.values
 
 test_x = test_np[:, 0:]
 
-test = pd.read_csv('data/origin/test.csv')
 
 test_predictions = model.predict(test_x)
 
-# passenger_id = test.filter(regex='PassengerId').values
-# a = pd.DataFrame({'PassengerId': passenger_id[:, 0], 'Survived':test_predictions[:, 0]})
-# sns.kdeplot(x = 'PassengerId', y = 'Survived', data=a)
-# import matplotlib.pyplot as plt
-# plt.show()
+test = pd.read_csv('data/origin/test.csv')
+
+pid = test.filter(regex='PassengerId').values
+a = np.hstack((pid, test_predictions))
+df = pd.DataFrame(a)
+df.columns = ['a','b']
+sns.lineplot(x = 'a', y = 'b', data=df)
+import matplotlib.pyplot as plt
+plt.show()
 
 passenger_id = test.filter(regex='PassengerId').values
-test_predictions[test_predictions>=0.5] = 1.0
-test_predictions[test_predictions<0.5] = 0
+test_predictions[test_predictions>=1] = 1.0
+test_predictions[test_predictions<1] = 0
 survied = test_predictions.astype(np.int32)
 
 result = pd.DataFrame({'PassengerId': passenger_id[:, 0], 'Survived':survied[:, 0]})
