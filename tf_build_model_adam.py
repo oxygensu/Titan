@@ -11,7 +11,7 @@ import seaborn as sns
 train_data = pd.read_csv('data/processed_train.csv')
 test_data = pd.read_csv('data/processed_test.csv')
 
-train_df = train_data.filter(regex='Survived|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*')
+train_df = train_data.filter(regex='Survived|Age_.*|SibSp|Parch|Fare_.*|Embarked_.*|Sex_.*|Pclass_.*')
 train_np = train_df.values
 # sns.pairplot(train_df[['Age_scaled', 'Fare_scaled', 'Pclass_1', 'Pclass_2', 'Pclass_3']])
 
@@ -26,7 +26,7 @@ train_y_dataset = tf.data.Dataset.from_tensor_slices((y))
 # build a model
 def build_model():
     model = keras.Sequential([
-        layers.Dense(64, activation='relu', input_shape=(14,)),
+        layers.Dense(64, activation='relu', input_shape=(12,)),
         layers.Dense(64, activation='relu'),
         layers.Dense(1)
     ])
@@ -47,7 +47,7 @@ history = model.fit(
 )
 
 ## save model
-model.save('model/tf_adam2.h5')
+model.save('model/tf_adam4.h5')
 
 # test = pd.read_csv('data/test.csv')
 # test = test.values
