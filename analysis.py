@@ -7,10 +7,14 @@ from pylab import mpl
 mpl.rcParams['font.sans-serif'] = ['Arial Unicode MS']
 mpl.rcParams['axes.unicode_minus'] = False
 
-train_data = pd.read_csv('data/train.csv')
-test_data = pd.read_csv('data/test.csv')
+train_data = pd.read_csv('data/origin/train.csv')
+test_data = pd.read_csv('data/origin/test.csv')
 
 sns.heatmap(train_data.isnull(), yticklabels=False, 
+cbar=False, cmap='viridis')
+plt.tight_layout()
+
+sns.heatmap(test_data.isnull(), yticklabels=False, 
 cbar=False, cmap='viridis')
 plt.tight_layout()
 

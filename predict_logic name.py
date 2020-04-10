@@ -20,7 +20,7 @@ y = train_np[:, 0]
 X = train_np[:, 1:]
 
 # fit到RandomForestRegressor之中
-model_LogisticRegression = linear_model.LogisticRegression(C=1.0, penalty='l2', tol=1e-6)
+model_LogisticRegression = linear_model.LogisticRegression(C=0.2, penalty='l2', tol=1e-5)
 model_LogisticRegression.fit(X, y)
 print('model:\n')
 print(model_LogisticRegression)
@@ -33,4 +33,4 @@ test_data = pd.read_csv('data/origin/test.csv')
 # use logistic regression
 predictions = model_LogisticRegression.predict(test_np)
 result = pd.DataFrame({'PassengerId':test_data['PassengerId'].values, 'Survived':predictions.astype(np.int32)})
-result.to_csv("data/predictions/logistic_regression_predictions_name.csv", index=False)
+result.to_csv("data/predictions/logistic_regression_predictions_name2.csv", index=False)

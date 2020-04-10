@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import sklearn
 # load predictions csv
-predictions = pd.read_csv('data/predictions/tf_predictions_name.csv')
+predictions = pd.read_csv('data/predictions/logistic_regression_predictions.csv')
 # load answer csv
 answer = pd.read_csv('data/predictions/submission.csv')
 
