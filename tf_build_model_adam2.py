@@ -11,7 +11,8 @@ import seaborn as sns
 train_data = pd.read_csv('data/processed_train2.csv')
 test_data = pd.read_csv('data/processed_test2.csv')
 
-train_df = train_data.filter(regex='Survived|Pclass|Sex|Age|SibSp|Parch|Fare|Embarked')
+train_df = train_data.filter(
+    regex='Survived|Age_.*|SibSp|Parch|Fare_.*|Cabin_.*|Embarked_.*|Sex_.*|Pclass_.*|Title_.*')
 train_np = train_df.values
 # sns.pairplot(train_df[['Age_scaled', 'Fare_scaled', 'Pclass_1', 'Pclass_2', 'Pclass_3']])
 
