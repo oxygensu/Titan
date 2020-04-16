@@ -34,14 +34,14 @@ train_y_dataset = tf.data.Dataset.from_tensor_slices((y))
 # build a model
 def build_model():
     model = keras.Sequential([
-        layers.Dense(128, activation='relu', input_shape=(20,)),
+        layers.Dense(128, activation='softmax', input_shape=(20,)),
         layers.Dense(64, activation='relu'),
-        layers.Dense(4, activation='softmax'),
+        layers.Dense(4, activation='relu'),
         layers.Dense(1)
     ])
-    optimizer = tf.keras.optimizers.Adam(0.01)
+    optimizer = tf.keras.optimizers.Adam(0.001)
 
-    model.compile(loss='MSE',
+    model.compile(loss='binary_crossentropy',
                   optimizer=optimizer,
                   metrics=['accuracy']
                  )
@@ -50,13 +50,13 @@ def build_model():
 model = build_model()
 model.summary()
 
-EPOCHS = 1000
+EPOCHS = 500
 history = model.fit(
     train_x, train_y,
     validation_data = (valid_x, valid_y),
     validation_steps = 10,
     epochs=EPOCHS,
-    verbose = 1
+    verbose = 2
 )
 
 ## save model

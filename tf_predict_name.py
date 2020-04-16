@@ -24,7 +24,7 @@ pid = test.filter(regex='PassengerId').values
 a = np.hstack((pid, test_predictions))
 df = pd.DataFrame(a)
 df.columns = ['a','b']
-sns.lineplot(x = 'a', y = 'b', data=df)
+sns.distplot(test_predictions)
 import matplotlib.pyplot as plt
 plt.show()
 

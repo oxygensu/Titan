@@ -1,5 +1,5 @@
 {
     "python.linting.enabled": true,
-    "python.pythonPath": "/Users/sushuxiang/opt/anaconda3/envs/TensorflowEnv/bin/python",
+    "python.pythonPath": "C:\\Users\\83524\\Anaconda3\\python.exe",
     "python.formatting.provider": "autopep8"
 }
