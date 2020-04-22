@@ -14,6 +14,8 @@ from sklearn.ensemble import AdaBoostClassifier as ADA
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 
+import xgboost as xgb
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -31,6 +33,9 @@ y = train_np[:, 0]
 # X即特征属性值
 X = train_np[:, 1:]
 
-train_x, valid_x, train_y, valid_y = train_test_split(X, y, test_size=0.2)
+# train_x, valid_x, train_y, valid_y = train_test_split(X, y, test_size=0.3)
+test_df = test_data.filter(regex='Age_.*|SibSp|Parch|Fare_.*|Embarked_.*|Sex_.*|Pclass_.*|Title*')
+test_np = test_df.values
+test = test_np[:, 0:]
 
-
+# def stacking(train_x, train_y, test)
