@@ -13,8 +13,8 @@ warnings.filterwarnings('ignore')
 
 # load data modeling libraries
 # Common Model Algorithms
-from sklearn import svm, tree, linear_model, neighbors, 
-naive_bayes, ensemble, discriminant_analysis,gaussian_process\
+from sklearn import svm, tree, linear_model, neighbors, \
+naive_bayes, ensemble, discriminant_analysis,gaussian_process
 from xgboost import XGBClassifier
 
 # Common Model Helper
@@ -24,11 +24,11 @@ from sklearn import model_selection
 from sklearn import metrics
 
 # Visualization
-import matplotlib as matplotlib
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
 import seaborn as sns
-from pandas.tools.plotting import scatter_matrix
+from pandas.plotting import scatter_matrix
 
 # Configure Visualization Defaults
 mpl.style.use('ggplot')
