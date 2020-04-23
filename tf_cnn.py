@@ -33,13 +33,15 @@ train_y_dataset = tf.data.Dataset.from_tensor_slices((y))
 # build a model
 def build_model():
     model = keras.Sequential([
-        layers.Dense(128, activation='softmax', input_shape=(14,)),
-        layers.Dropout(0.2),
-        layers.Dense(64, activation='softmax'),
-        layers.Dropout(0.2),
-        layers.Dense(4, activation='softmax'),
-        layers.Dropout(0.2),
-        layers.Dense(1)
+        layers.Conv2D(32, kernel_size=1, activation='relu', input_shape=(,14)),
+        layers.MaxPooling2D((1,2)),
+        layers.Conv2D(64, kernel_size=1, activation='relu'),
+        layers.MaxPooling2D((1,2)),
+        layers.Conv2D(64, kernel_size=1, activation='relu'),
+        layers.MaxPooling2D((1,2)),
+        layers.Flatten(),
+        layers.Dense(512, activation='relu'),
+        layers.Dense(1, activation='sigmoid')
     ])
     optimizer = tf.keras.optimizers.Adam(0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-07)
 
@@ -60,5 +62,5 @@ history = model.fit(
 )
 
 ## save model
-model.save('model/tf_name2.h5')
+model.save('model/tf_cnn.h5')
 

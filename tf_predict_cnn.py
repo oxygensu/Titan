@@ -6,7 +6,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import seaborn as sns
 
-model = keras.models.load_model('model/tf_name2.h5')
+model = keras.models.load_model('model/tf_cnn.h5')
 
 test_data = pd.read_csv('data/pre_processing/processed_test4.csv')
 test_df = test_data
