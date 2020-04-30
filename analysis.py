@@ -10,56 +10,30 @@ mpl.rcParams['axes.unicode_minus'] = False
 train_data = pd.read_csv('data/origin/train.csv')
 test_data = pd.read_csv('data/origin/test.csv')
 
-sns.heatmap(train_data.isnull(), yticklabels=False, 
-cbar=False, cmap='viridis')
-plt.tight_layout()
+print(train_data.info())
+print("-" * 80)
+print(test_data.info())
 
-sns.heatmap(test_data.isnull(), yticklabels=False, 
-cbar=False, cmap='viridis')
-plt.tight_layout()
+print("-" * 80)
+print(train_data.head())
 
+print("-" * 80)
 
-survived = '存活'
-not_survived = '死亡'
+sns.catplot(x="Pclass", hue="Survived", kind="count", data=train_data)
 
-# female survived/not survived histogram
-fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
-women = train_data[train_data['Sex']=='female']
-men = train_data[train_data['Sex']=='male']
-ax = sns.distplot(
-    women[women['Survived']==1].Age.dropna(),
-    bins=18, label=survived, ax=axes[0], kde=False)
-ax = sns.distplot(
-    women[women['Survived']==0].Age.dropna(),
-    bins=40, label=not_survived, ax=axes[0], kde=False)
-ax.legend()
-ax.set_title('女性')
+sns.catplot(x="Sex", hue="Survived", kind="count", data=train_data)
 
-# men survived/not survived histogram
-ax = sns.distplot(
-    men[men['Survived']==1].Age.dropna(),
-    bins=18, label=survived, ax=axes[1], kde=False)
-ax = sns.distplot(
-    men[men['Survived']==0].Age.dropna(),
-    bins=40, label=not_survived, ax=axes[1], kde=False)
-ax.legend()
-_ = ax.set_title('男性')
+sns.catplot(x="Age", hue="Survived", kind="count", data=train_data)
 
-# embark survived rate
-facet_grid = sns.FacetGrid(train_data, row='Embarked', size=4.5, aspect=1.6)
-facet_grid.map(sns.pointplot, 'Pclass', 'Survived', 'Sex',
-                palette=None, order=None, hue_order=None)
-facet_grid.add_legend()
+sns.catplot(x="SibSp", hue="Survived", kind="count", data=train_data)
+sns.catplot(x="SibSp", kind="count", data=test_data)
 
-# relative numbers and survived 
-data = [train_data, test_data]
-for dataset in data:
-    dataset['relatives'] = dataset['SibSp'] + dataset['Parch']
-    dataset.loc[dataset['relatives']>0, 'not_alone'] = 0
-    dataset.loc[dataset['relatives']==0, 'not_alone'] = 1
-    dataset['not_alone'] = dataset['not_alone'].astype(int)
-train_data['not_alone'].value_counts()
-axes = sns.factorplot('relatives', 'Survived',
-                        data=train_data, aspect=2.5)
+sns.catplot(x="Parch", hue="Survived", kind="count", data=train_data)
+
+sns.catplot(x="Ticket", hue="Survived", kind="count", data=train_data)
+
+sns.catplot(x="Fare", hue="Survived", kind="count", data=train_data)
+
+sns.catplot(x="Embarked", hue="Survived", kind="count", data=train_data)
 
 plt.show()
