@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.impute import SimpleImputer
 
-train_data = pd.read_csv('data/origin/train.csv')
-test_data = pd.read_csv('data/origin/test.csv')
+org_train_data = pd.read_csv('data/origin/train.csv')
+org_test_data = pd.read_csv('data/origin/test.csv')
 
 #### drop Ticket and Cabin
-train_data = train_data.drop(['Ticket', 'Cabin'], axis=1)
-test_data = test_data.drop(['Ticket', 'Cabin'], axis=1)
+train_data = org_train_data.drop(['Ticket', 'Cabin'], axis=1)
+test_data = org_test_data.drop(['Ticket', 'Cabin'], axis=1)
 
 
 def onehot(df):
@@ -30,6 +31,10 @@ scaler = StandardScaler()
 fare = train_data['Fare'].values.reshape(-1, 1)
 scaler.fit(fare)
 train_data['Fare_scaler'] = scaler.transform(fare)
+
+# imputer Fare
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+test_data['Fare'] = imputer.fit_transform(test_data['Fare'].values.reshape(-1,1))
 
 scaler = StandardScaler()
 fare = test_data['Fare'].values.reshape(-1, 1)
@@ -86,50 +91,34 @@ print(train_data.info())
 print(test_data.info())
 
 #### get known age df and unknow age
-age_known = train_data[train_data.Age.notnull()]
-age_unknown = train_data[train_data.Age.isnull()]
+def age_fill(df):
 
-age_known = age_known.filter(regex="Age|Pclass_.*|Sex_.*|SibSp_.*|Parch_.*|Embarked_.*|Title_.*|Fare_.*").values
-age_unknown = age_unknown.filter(regex="Age|Pclass_.*|Sex_.*|SibSp_.*|Parch_.*|Embarked_.*|Title_.*|Fare_.*").values
+    df = df.filter(regex="Age|Pclass_.*|Sex_.*|SibSp_.*|Parch_.*|Embarked_.*|Title_.*|Fare_.*")
 
-y = age_known[:, 0]
-X = age_known[:, 1:]
+    age_known = df[df.Age.notnull()].values
+    age_unknown = df[df.Age.isnull()].values
 
-rfr = RandomForestRegressor(random_state=0, n_estimators=2000, max_depth=29, n_jobs=-1)
-rfr.fit(X, y)
-predictedAges = rfr.predict(age_unknown[:, 1::])
-train_data.loc[ (train_data.Age.isnull()), 'Age' ] = predictedAges 
+    y = age_known[:, 0]
+    X = age_known[:, 1:]
 
+    rfr = RandomForestRegressor(random_state=0, n_estimators=2000, max_depth=29, n_jobs=-1)
+    rfr.fit(X, y)
+    predictedAges = rfr.predict(age_unknown[:, 1::])
+    df.loc[ (df.Age.isnull()), 'Age' ] = predictedAges 
 
-#### Age standscaler
-scaler = StandardScaler()
-age = train_data['Age'].values.reshape(-1, 1)
-scaler.fit(age)
-train_data['age_scaler'] = scaler.transform(age)
+    #### Age standscaler
+    scaler = StandardScaler()
+    age = df['Age'].values.reshape(-1, 1)
+    scaler.fit(age)
+    df['age_scaler'] = scaler.transform(age)
+    return df
 
+train_data = age_fill(train_data)
+test_data = age_fill(test_data)
 
-#### get known age df and unknow age
-age_known = test_data[test_data.Age.notnull()]
-age_unknown = test_data[test_data.Age.isnull()]
+# save train and test data to csv
+train_result = pd.concat([org_train_data['PassengerId'], train_data], axis=1)
+train_result.to_csv("data/pre_processing/processed_train5.csv", index=False)
 
-age_known = age_known.filter(regex="Age|Pclass_.*|Sex_.*|SibSp_.*|Parch_.*|Embarked_.*|Title_.*|Fare_.*").values
-age_unknown = age_unknown.filter(regex="Age|Pclass_.*|Sex_.*|SibSp_.*|Parch_.*|Embarked_.*|Title_.*|Fare_.*").values
-
-y = age_known[:, 0]
-X = age_known[:, 1:]
-
-rfr = RandomForestRegressor(random_state=0, n_estimators=2000, max_depth=29, n_jobs=-1)
-rfr.fit(X, y)
-predictedAges = rfr.predict(age_unknown[:, 1::])
-test_data.loc[ (test_data.Age.isnull()), 'Age' ] = predictedAges 
-
-
-#### Age standscaler
-scaler = StandardScaler()
-age = test_data['Age'].values.reshape(-1, 1)
-scaler.fit(age)
-test_data['age_scaler'] = scaler.transform(age)
-
-print(train_data.info())
-
-print(test_data.inf0())
+test_result = pd.concat([org_test_data['PassengerId'], test_data], axis=1)
+test_result.to_csv("data/pre_processing/processed_test5.csv", index=False)
