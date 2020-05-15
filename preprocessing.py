@@ -110,14 +110,17 @@ def age_fill(df):
     scaler = StandardScaler()
     age = df['Age'].values.reshape(-1, 1)
     scaler.fit(age)
-    df['age_scaler'] = scaler.transform(age)
+    df['Age_scaler'] = scaler.transform(age)
     return df
 
 train_data = age_fill(train_data)
 test_data = age_fill(test_data)
 
+train_data = train_data.drop("Age", axis=1)
+test_data = test_data.drop("Age", axis=1)
+
 # save train and test data to csv
-train_result = pd.concat([org_train_data['PassengerId'], train_data], axis=1)
+train_result = pd.concat([org_train_data[['PassengerId', 'Survived']], train_data], axis=1)
 train_result.to_csv("data/pre_processing/processed_train5.csv", index=False)
 
 test_result = pd.concat([org_test_data['PassengerId'], test_data], axis=1)

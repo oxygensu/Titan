@@ -26,4 +26,5 @@ def calculate_acc(predictions_np):
     # load answer csv
     answer = pd.read_csv('data/predictions/submission.csv')
     answer_np = answer['Survived'].values
-    print("acc = %.5f"%(acc(predictions_np, answer_np)))
+    print("acc = %.5f" % (acc(predictions_np, answer_np)))
+    
